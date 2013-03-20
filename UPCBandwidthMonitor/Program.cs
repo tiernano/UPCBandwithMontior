@@ -23,7 +23,7 @@ namespace UPCBandwidthMonitor
             CookieContainer tmp = new CookieContainer();
             string LoginURL = "https://service.upc.ie/pkmslogin.form?REDIRURL=https://service.upc.ie/cckservices/myupc//handle-login";
             string ToPost = String.Format("login-form-type=pwd&hid_username=unauthenticated&hid_tamop=login&hid_errorcode=0x00000000&hid_referer=null&form_action=https%3A%2F%2Fservice.upc.ie%2Fpkmslogin.form%3FREDIRURL%3Dhttps%3A%2F%2Fservice.upc.ie%2Fcckservices%2Fmyupc%2F%2Fhandle-login&username={0}&password={1}", userName, password);
-            HttpWebResponse Response = Request(LoginURL, ToPost, null, "http://www.vodafone.ie/");
+            HttpWebResponse Response = Request(LoginURL, ToPost, null, "http://www.upc.ie");
             tmp.Add(Response.Cookies);
             Response.Close();
             return tmp;
