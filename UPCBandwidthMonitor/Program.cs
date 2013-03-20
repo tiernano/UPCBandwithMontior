@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -14,7 +15,15 @@ namespace UPCBandwidthMonitor
         {
             var cookies = Login(ConfigurationManager.AppSettings["username"], ConfigurationManager.AppSettings["password"]);
             string json = StreamToString(Request("https://service.upc.ie/cckservices/myupcmyusage", null, cookies, "https://service.upc.ie/cckservices/myupc/").GetResponseStream());
-            Console.WriteLine(json);
+            try
+            {
+                UPCObject obj = JsonConvert.DeserializeObject<UPCObject>(json.Remove(json.Length - 1, 1).Remove(1, 1));
+                Console.WriteLine("Last Updated: {3} Downloaded: {0} Uploaded: {1} total: {2}", obj.downloaded, obj.uploaded, obj.total, obj.lastmoddt);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             Console.ReadLine();
         }
 
@@ -76,5 +85,18 @@ namespace UPCBandwidthMonitor
             readStream.Close();
             return result;
         }
+    }
+
+    public class UPCObject
+    {
+        public string result { get; set; }
+        public string lastmoddt { get; set; }
+        public string lastmodtm { get; set; }
+        public string curr { get; set; }
+        public string nxt { get; set; }
+        public string downloaded { get; set; }
+        public string uploaded { get; set; }
+        public string total { get; set; }
+        public string cap { get; set; }
     }
 }
