@@ -17,7 +17,7 @@ namespace UPCBandwidthMonitor
             string json = StreamToString(Request("https://service.upc.ie/cckservices/myupcmyusage", null, cookies, "https://service.upc.ie/cckservices/myupc/").GetResponseStream());
             try
             {
-                UPCObject obj = JsonConvert.DeserializeObject<UPCObject>(json.Remove(json.Length - 1, 1).Remove(1, 1));
+                UPCObject obj = JsonConvert.DeserializeObject<UPCObject>(json);
                 Console.WriteLine("Last Updated: {3} Downloaded: {0} Uploaded: {1} total: {2}", obj.downloaded, obj.uploaded, obj.total, obj.lastmoddt);
             }
             catch (Exception ex)
